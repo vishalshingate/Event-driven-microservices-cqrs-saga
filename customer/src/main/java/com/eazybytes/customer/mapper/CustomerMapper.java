@@ -1,5 +1,6 @@
 package com.eazybytes.customer.mapper;
 
+import com.eazybytes.customer.command.event.CustomerUpdatedEvent;
 import com.eazybytes.customer.dto.CustomerDto;
 import com.eazybytes.customer.entity.Customer;
 
@@ -22,6 +23,17 @@ public class CustomerMapper {
         if(customerDto.isActiveSw()) {
             customer.setActiveSw(customerDto.isActiveSw());
         }
+        return customer;
+    }
+    public static Customer MapEventToCustomer(CustomerUpdatedEvent customerUpdatedEvent, Customer customer) {
+        customer.setCustomerId(customer.getCustomerId());
+        customer.setName(customerUpdatedEvent.getName());
+        customer.setEmail(customerUpdatedEvent.getEmail());
+        customer.setMobileNumber(customerUpdatedEvent.getMobileNumber());
+        if(customerUpdatedEvent.isActiveSw()) {
+            customer.setActiveSw(true);
+        }
+
         return customer;
     }
 
