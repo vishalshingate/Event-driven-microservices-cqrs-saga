@@ -43,6 +43,7 @@ public void handle(UpdateCustomerCommand cmd) {
 public void on(CustomerUpdatedEvent event) {
     this.name = event.getName();
     this.email = event.getEmail();
+    
 }
 ```
 
