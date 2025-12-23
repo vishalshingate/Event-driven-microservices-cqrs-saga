@@ -2,6 +2,7 @@ package com.eazybytes.customer.command.controller;
 
 import com.eazybytes.customer.command.CreateCustomerCommand;
 import com.eazybytes.customer.command.DeleteCustomerCommand;
+import com.eazybytes.customer.command.UpdateCustomerCommand;
 import com.eazybytes.customer.constants.CustomerConstants;
 import com.eazybytes.customer.dto.CustomerDto;
 import com.eazybytes.customer.dto.ResponseDto;
@@ -50,7 +51,7 @@ public class CustomerController {
 
     @PutMapping("/update")
     public ResponseEntity<ResponseDto> updateCustomerDetails(@Valid @RequestBody CustomerDto customerDto) {
-        CreateCustomerCommand updateCustomerCommand = CreateCustomerCommand.builder()
+        UpdateCustomerCommand updateCustomerCommand = UpdateCustomerCommand.builder()
             .customerId(customerDto.getCustomerId())
             .name(customerDto.getName())
             .email(customerDto.getEmail())
