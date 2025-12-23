@@ -43,10 +43,10 @@ public class CustomerAggregate {
     @CommandHandler // to tell axon framework that this constructor will handle the command
     public CustomerAggregate(CreateCustomerCommand createCustomerCommand, CustomerRepository customerRepository) {
         // handle the create customer command
-        Optional<Customer> optionalCustomer =customerRepository.findByMobileNumberAndActiveSw(createCustomerCommand.getMobileNumber(), true);
+       /* Optional<Customer> optionalCustomer =customerRepository.findByMobileNumberAndActiveSw(createCustomerCommand.getMobileNumber(), true);
         if(optionalCustomer.isPresent()){
             throw new CustomerAlreadyExistsException("Customer with mobile number "+createCustomerCommand.getMobileNumber()+" already exists");
-        }
+        }*/
         CustomerCreatedEvent customerCreatedEvent = new CustomerCreatedEvent();
         BeanUtils.copyProperties(createCustomerCommand,customerCreatedEvent);
 
