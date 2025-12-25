@@ -33,7 +33,7 @@ public class CustomerCommandInterceptor implements MessageDispatchInterceptor<Co
 
            // validate CreateCustomerCommand for existing customer with same mobile number
             if(CreateCustomerCommand.class.equals(command.getPayloadType())) {
-               CreateCustomerCommand createCustomerCommand = (CreateCustomerCommand)messages.get(index);
+               CreateCustomerCommand createCustomerCommand = (CreateCustomerCommand)command.getPayload();
                Optional<Customer>
                    optionalCustomer =customerRepository.findByMobileNumberAndActiveSw(createCustomerCommand.getMobileNumber(), true);
                if(optionalCustomer.isPresent()){
@@ -43,7 +43,7 @@ public class CustomerCommandInterceptor implements MessageDispatchInterceptor<Co
            }
             // validate UpdateCustomerCommand for non existing customer with same mobile number
             if(UpdateCustomerCommand.class.equals(command.getPayloadType())) {
-                UpdateCustomerCommand updateCustomerCommand = (UpdateCustomerCommand)messages.get(index);
+                UpdateCustomerCommand updateCustomerCommand = (UpdateCustomerCommand)command.getPayload();
                 Customer customer
                      =customerRepository.findByMobileNumberAndActiveSw(updateCustomerCommand.getMobileNumber(), true).orElseThrow(()->
                     new ResourceNotFoundException("Customer", "mobileNumber", updateCustomerCommand.getMobileNumber()));
@@ -51,7 +51,7 @@ public class CustomerCommandInterceptor implements MessageDispatchInterceptor<Co
 
             // validate DeleteCustomerCommand for non existing customer
             if(DeleteCustomerCommand.class.equals(command.getPayloadType())) {
-                DeleteCustomerCommand deleteCustomerCommand = (DeleteCustomerCommand) messages.get(index);
+                DeleteCustomerCommand deleteCustomerCommand = (DeleteCustomerCommand) command.getPayload();
                 Customer customer
                     =customerRepository.findByCustomerIdAndActiveSw(deleteCustomerCommand.getCustomerId(), true).orElseThrow(()->
                     new ResourceNotFoundException("Customer", "mobileNumber", deleteCustomerCommand.getCustomerId()));

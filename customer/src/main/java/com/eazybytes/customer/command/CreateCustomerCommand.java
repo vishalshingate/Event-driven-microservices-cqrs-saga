@@ -13,4 +13,5 @@ public class CreateCustomerCommand {
     private final String email;
     private final String mobileNumber;
     private final boolean activeSw;
+
 }
