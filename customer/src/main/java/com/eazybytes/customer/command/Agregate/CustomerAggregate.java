@@ -9,15 +9,18 @@ import com.eazybytes.customer.command.event.CustomerUpdatedEvent;
 import com.eazybytes.customer.dto.CustomerDto;
 import com.eazybytes.customer.entity.Customer;
 import com.eazybytes.customer.exception.CustomerAlreadyExistsException;
+import com.eazybytes.customer.exception.ResourceNotFoundException;
 import com.eazybytes.customer.repository.CustomerRepository;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
+import org.axonframework.eventsourcing.eventstore.EventStore;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Bean;
 
+import java.util.List;
 import java.util.Optional;
 
 @Aggregate// we are telling to action framework this class is an aggregate
@@ -56,7 +59,13 @@ public class CustomerAggregate {
 
     }
     @CommandHandler
-    public void updateCustomerAggregate(UpdateCustomerCommand updateCustomerCommand) {
+    public void updateCustomerAggregate(UpdateCustomerCommand updateCustomerCommand, EventStore eventStore) {
+
+        List<?> commands = eventStore.readEvents(updateCustomerCommand.getCustomerId()).asStream().toList();
+
+        if(commands.isEmpty()){
+           throw new ResourceNotFoundException("Customer", "mobileNumber", updateCustomerCommand.getMobileNumber());
+        }
         CustomerUpdatedEvent customerUpdatedEvent = new CustomerUpdatedEvent();
 
         //copy properties from command to event
