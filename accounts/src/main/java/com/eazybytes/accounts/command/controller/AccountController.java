@@ -10,6 +10,7 @@ import com.eazybytes.accounts.dto.ResponseDto;
 import com.eazybytes.accounts.entity.Accounts;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Digits;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.BeanUtils;
@@ -35,18 +36,21 @@ public class AccountController {
     private final CommandGateway commandGateway;
 
 
-    @PostMapping
-    public ResponseEntity<?> createAccount(@RequestParam  @Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile number must be 10 digits")
-                                           String MobileNumber) {
+    @PostMapping("/create")
+    public ResponseEntity<?> createAccount(
+            @RequestParam("mobileNumber")
+            @Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile number must be 10 digits")
+            String mobileNumber) {
 
         // we have to create the command
         long randomAccNumber = 1000000000L + new Random().nextInt(900000000);
         CreateAccountCommand createAccountCommand = CreateAccountCommand.builder()
-                .mobileNumber(MobileNumber)
-                    .accountNumber(randomAccNumber)
-                        .accountType(AccountsConstants.SAVINGS)
-                            .branchAddress(AccountsConstants.ADDRESS)
-                                .activeSw(true).build();
+                .mobileNumber(mobileNumber)
+                .accountNumber(randomAccNumber)
+                .accountType(AccountsConstants.SAVINGS)
+                .branchAddress(AccountsConstants.ADDRESS)
+                .activeSw(true)
+                .build();
 
 
         //  publish event to axon framework
@@ -80,9 +84,10 @@ public class AccountController {
     }
 
     @PatchMapping("/delete")
-    public ResponseEntity<?> deleteAccount(@RequestParam ("accountNumber")
-                                               @Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile number must be 10 digits")
-                                               Long accountNumber) {
+    public ResponseEntity<?> deleteAccount(
+            @RequestParam("accountNumber")
+            @Digits(integer = 10, fraction = 0, message = "Account number must be 10 digits")
+            Long accountNumber) {
 
         DeleteAccountCommand deleteAccountCommand = DeleteAccountCommand.builder()
             .accountNumber(accountNumber)

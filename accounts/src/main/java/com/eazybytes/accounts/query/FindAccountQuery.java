@@ -1,4 +1,8 @@
 package com.eazybytes.accounts.query;
 
-public record FindAccountQuery(String mobileNumber) {
+import lombok.Value;
+
+@Value
+public class FindAccountQuery {
+    String mobileNumber;
 }

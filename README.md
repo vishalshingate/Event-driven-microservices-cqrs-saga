@@ -40,9 +40,9 @@ Now that the configuration is ready, you can start the Axon Server in Docker. Ru
 ```bash
 docker run -d --name axonserver \
     -p 8024:8024 -p 8124:8124 \
-    -v "/Users/eazybytes/Desktop/axonserver/data":/axonserver/data \
-    -v "/Users/eazybytes/Desktop/axonserver/events":/axonserver/events \
-    -v "/Users/eazybytes/Desktop/axonserver/config":/axonserver/config \
+    -v "C:/D/Personel/event-driven-microservices/axonserver/data":/axonserver/data \
+    -v "C:/D/Personel/event-driven-microservices/axonserver/events":/axonserver/events \
+    -v "C:/D/Personel/event-driven-microservices/axonserver/config":/axonserver/config \
     axoniq/axonserver
 ```
 

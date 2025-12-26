@@ -27,6 +27,7 @@ public class AccountQueryController {
                                                            String mobileNumber) {
         FindAccountQuery findAccountQuery = new FindAccountQuery(mobileNumber);
 
+        // here we have published query to the framework but framework dont know how to execute this , so for that we have to write the logic
         AccountsDto accountsDto = queryGateway.query(findAccountQuery, AccountsDto.class).join();
         return ResponseEntity.status(HttpStatus.OK).body(accountsDto);
     }

@@ -66,11 +66,11 @@ public class AccountsServiceImpl  implements IAccountsService {
      * @return boolean indicating if the update of Account details is successful or not
      */
     @Override
-    public boolean updateAccount(AccountsDto accountsDto) {
-        Accounts account = accountsRepository.findByMobileNumberAndActiveSw(accountsDto.getMobileNumber(),
+    public boolean updateAccount(Accounts accounts) {
+        Accounts account = accountsRepository.findByMobileNumberAndActiveSw(accounts.getMobileNumber(),
                 AccountsConstants.ACTIVE_SW).orElseThrow(() -> new ResourceNotFoundException("Account", "mobileNumber",
-                accountsDto.getMobileNumber()));
-        AccountsMapper.mapToAccounts(accountsDto, account);
+            accounts.getMobileNumber()));
+        //AccountsMapper.mapToAccounts(accountsDto, account);
         accountsRepository.save(account);
         return  true;
     }
