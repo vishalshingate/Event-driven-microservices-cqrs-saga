@@ -24,13 +24,13 @@ public class AccountsServiceImpl  implements IAccountsService {
      * @param mobileNumber - String
      */
     @Override
-    public void createAccount(String mobileNumber) {
-        Optional<Accounts> optionalAccounts= accountsRepository.findByMobileNumberAndActiveSw(mobileNumber,
+    public void createAccount(Accounts account) {
+        Optional<Accounts> optionalAccounts= accountsRepository.findByMobileNumberAndActiveSw(account.getMobileNumber(),
                 AccountsConstants.ACTIVE_SW);
         if(optionalAccounts.isPresent()){
-            throw new AccountAlreadyExistsException("Account already registered with given mobileNumber "+mobileNumber);
+            throw new AccountAlreadyExistsException("Account already registered with given mobileNumber "+account.getMobileNumber());
         }
-        accountsRepository.save(createNewAccount(mobileNumber));
+        accountsRepository.save(account);
     }
 
     /**
