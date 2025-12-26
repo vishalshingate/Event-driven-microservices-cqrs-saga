@@ -1,7 +1,11 @@
 package com.eazybytes.accounts;
 
+import com.eazybytes.accounts.command.interceptor.AccountCommandInterceptor;
+import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
@@ -12,4 +16,8 @@ public class AccountsApplication {
         SpringApplication.run(AccountsApplication.class, args);
     }
 
+    @Autowired
+    public void registerAccountCommandInterCeptor(ApplicationContext context, CommandGateway commandGateway) {
+        commandGateway.registerDispatchInterceptor(context.getBean(AccountCommandInterceptor.class));
+    }
 }

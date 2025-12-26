@@ -38,12 +38,12 @@ public class AccountAggregate {
     public AccountAggregate(CreateAccountCommand createAccountCommand, AccountsRepository accountsRepository) {
         // before updating or publishing even to the framework we should validate if the account is already exist in framework
 
-        Optional<Accounts> optionalAccounts =  accountsRepository.findByMobileNumberAndActiveSw(createAccountCommand.getMobileNumber(),
+        /*Optional<Accounts> optionalAccounts =  accountsRepository.findByMobileNumberAndActiveSw(createAccountCommand.getMobileNumber(),
             createAccountCommand.isActiveSw());
 
         if(optionalAccounts.isPresent()) {
             throw new AccountAlreadyExistsException("Account with mobile number "+createAccountCommand.getMobileNumber()+" already exists");
-        }
+        }*/
 
         AccountCreatedEvent accountCreatedEvent = new AccountCreatedEvent();
 
