@@ -34,7 +34,7 @@ public class CustomerController {
 
     @PostMapping("/create")
     public ResponseEntity<ResponseDto> createCustomer(@Valid @RequestBody CustomerDto customerDto) {
-        CreateCustomerCommand createCustomerCommand = CreateCustomerCommand.builder()
+        CreateCustomerCommand createCustomerCommand = CreateCustomerCommand.     builder()
                 .customerId(UUID.randomUUID().toString())
                 .name(customerDto.getName())
                 .email(customerDto.getEmail())
